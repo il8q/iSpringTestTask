@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\db\ListElement;
+use frontend\models\CheckListForm;
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
 use yii\web\Response;
@@ -17,7 +18,7 @@ class ListElementController extends Controller
         return [
             [
                 'class' => 'yii\filters\ContentNegotiator',
-                'only' => ['add', 'all'],
+                'only' => ['add', 'my-list'],
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
@@ -29,6 +30,7 @@ class ListElementController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'add' => ['post'],
+                    'my-list' => ['get'],
                 ],
             ],
         ];
@@ -47,5 +49,21 @@ class ListElementController extends Controller
             return $listElement->serializeToArray();
         }
         return ['errors' => $listElement->getFirstErrors()];
+    }
+
+    /**
+     * Выдает чек лист.
+     * GET-метод.
+     * Параметры: limit - кол-во в пачке, offset - сдвиг от начала
+     * @return array
+     */
+    public function actionMyList(): array
+    {
+        $form = new CheckListForm();
+        $form->load($this->request->get(), '');
+        if ($form->validate() && $form->getMyList()) {
+            return $form->serializeToArray();
+        }
+        return ['errors' => $form->getFirstErrors()];
     }
 }
