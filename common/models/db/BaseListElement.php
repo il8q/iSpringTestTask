@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\db;
+namespace common\models\db;
 
 use Yii;
 
@@ -10,8 +10,8 @@ use Yii;
  * @property int $listElementId
  * @property string|null $description
  * @property int|null $isCompleted
- * @property int|null $createAt
- * @property int|null $updateAt
+ * @property int|null $createdAt
+ * @property int|null $updatedAt
  */
 class BaseListElement extends \yii\db\ActiveRecord
 {
@@ -29,8 +29,8 @@ class BaseListElement extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['isCompleted', 'createAt', 'updateAt'], 'integer'],
-            [['description'], 'string', 'max' => 255],
+            [['description'], 'string'],
+            [['isCompleted', 'createdAt', 'updatedAt'], 'integer'],
         ];
     }
 
@@ -43,8 +43,8 @@ class BaseListElement extends \yii\db\ActiveRecord
             'listElementId' => 'List Element ID',
             'description' => 'Description',
             'isCompleted' => 'Is Completed',
-            'createAt' => 'Create At',
-            'updateAt' => 'Update At',
+            'createdAt' => 'Created At',
+            'updatedAt' => 'Updated At',
         ];
     }
 }

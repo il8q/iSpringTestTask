@@ -1,1 +1,1 @@
-php yii gii/model --tableName=listElement --modelClass=ListElement --interactive=0 --baseClass=app/models/db/BaseListElement
+php yii gii/model --tableName=listElement --modelClass=BaseListElement --interactive=0 --overwrite=1 --ns="common\models\db"
