@@ -43,7 +43,7 @@
 					"formdata": [
 						{
 							"key": "description",
-							"value": "132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва132ыва",
+							"value": "",
 							"type": "text"
 						}
 					]
@@ -138,7 +138,7 @@
 							"formdata": [
 								{
 									"key": "description",
-									"value": "132ыва132ыва132ыва132ы",
+									"value": "",
 									"type": "text"
 								}
 							]
@@ -162,109 +162,6 @@
 					"body": null
 				}
 			]
-		},
-		{
-			"name": "Получить список",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var schema = {\r",
-							"  \"listElements\": {\r",
-							"    \"listElementId\": \"integer\",\r",
-							"    \"description\": \"string\",\r",
-							"    \"isCompleted\": \"boolean\",\r",
-							"    \"createAt\": \"integer\",\r",
-							"    \"updateAt\": \"integer\",\r",
-							"  }\r",
-							"};\r",
-							"\r",
-							"pm.test(\"Выдается список элементов чек-листа\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://frontend.test/list-element/my-list?isCompleted=0",
-					"protocol": "http",
-					"host": [
-						"frontend",
-						"test"
-					],
-					"path": [
-						"list-element",
-						"my-list"
-					],
-					"query": [
-						{
-							"key": "isCompleted",
-							"value": "0"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Удалить из списка",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var schema = {\r",
-							"  \"success\": \"boolean\",\r",
-							"};\r",
-							"\r",
-							"pm.test(\"Элемент удаляется, возврщается true\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
-							"    pm.expect(jsonData.isCompleted).to.eql(true);\r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "id",
-							"value": "1",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://frontend.test/list-element/remove",
-					"protocol": "http",
-					"host": [
-						"frontend",
-						"test"
-					],
-					"path": [
-						"list-element",
-						"remove"
-					]
-				}
-			},
-			"response": []
 		},
 		{
 			"name": "Пометить как выполенную",
@@ -318,6 +215,236 @@
 					"path": [
 						"list-element",
 						"mark-as-completed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить список",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"listElements\": {\r",
+							"    \"listElementId\": \"integer\",\r",
+							"    \"description\": \"string\",\r",
+							"    \"isCompleted\": \"boolean\",\r",
+							"    \"createAt\": \"integer\",\r",
+							"    \"updateAt\": \"integer\",\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Выдается список элементов чек-листа\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://frontend.test/list-element/my-list?isCompleted=0",
+					"protocol": "http",
+					"host": [
+						"frontend",
+						"test"
+					],
+					"path": [
+						"list-element",
+						"my-list"
+					],
+					"query": [
+						{
+							"key": "isCompleted",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Без параметров выдает первые 10 элементов",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://frontend.test/list-element/my-list",
+							"protocol": "http",
+							"host": [
+								"frontend",
+								"test"
+							],
+							"path": [
+								"list-element",
+								"my-list"
+							],
+							"query": [
+								{
+									"key": "isCompleted",
+									"value": "0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Без параметров выдает первые 10 элементов Copy",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://frontend.test/list-element/my-list?offset=10&limit=5",
+							"protocol": "http",
+							"host": [
+								"frontend",
+								"test"
+							],
+							"path": [
+								"list-element",
+								"my-list"
+							],
+							"query": [
+								{
+									"key": "isCompleted",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "10"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Можно получить списиок невыполненных",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://frontend.test/list-element/my-list?isCompleted=0",
+							"protocol": "http",
+							"host": [
+								"frontend",
+								"test"
+							],
+							"path": [
+								"list-element",
+								"my-list"
+							],
+							"query": [
+								{
+									"key": "isCompleted",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "Можно получить списиок выполненных",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://frontend.test/list-element/my-list?isCompleted=0",
+							"protocol": "http",
+							"host": [
+								"frontend",
+								"test"
+							],
+							"path": [
+								"list-element",
+								"my-list"
+							],
+							"query": [
+								{
+									"key": "isCompleted",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Удалить из списка",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"success\": \"boolean\",\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Элемент удаляется, возврщается true\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    pm.expect(jsonData.isCompleted).to.eql(true);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://frontend.test/list-element/delete",
+					"protocol": "http",
+					"host": [
+						"frontend",
+						"test"
+					],
+					"path": [
+						"list-element",
+						"delete"
 					]
 				}
 			},
