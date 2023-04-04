@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\db\ListElement;
 use frontend\models\CheckListForm;
+use frontend\models\MarkListElementForm;
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
 use yii\web\Response;
@@ -18,7 +19,7 @@ class ListElementController extends Controller
         return [
             [
                 'class' => 'yii\filters\ContentNegotiator',
-                'only' => ['add', 'my-list'],
+                'only' => ['add', 'my-list', 'mark-as-completed'],
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
@@ -38,8 +39,9 @@ class ListElementController extends Controller
 
     /**
      * Добавляет элемент в чек-лист.
-     * POST-метод. Обязательный параметр - description
-     * @return array
+     * http://frontend.test/list-element/add - POST-метод.
+     * Обязательный параметр - description
+     * @return array - полностью сериализованный элемент или ошибки
      */
     public function actionAdd(): array
     {
@@ -53,15 +55,35 @@ class ListElementController extends Controller
 
     /**
      * Выдает чек лист.
-     * GET-метод.
-     * Параметры: limit - кол-во в пачке, offset - сдвиг от начала
-     * @return array
+     * http://frontend.test/list-element/my-list - GET-метод.
+     * Параметры:
+     *      limit - кол-во в пачке,
+     *      offset - сдвиг от начала,(нужно для пакетной выдачи данных)
+     *      isCompleted - все(незадано)/0(незавершенные)/1(завершенные)
+     * @return array - список коротко сериализованных элементов или ошибки
      */
     public function actionMyList(): array
     {
         $form = new CheckListForm();
         $form->load($this->request->get(), '');
         if ($form->validate() && $form->getMyList()) {
+            return $form->serializeToArray();
+        }
+        return ['errors' => $form->getFirstErrors()];
+    }
+
+
+    /**
+     * Выдает чек лист.
+     * http://frontend.test/list-element/mark-as-completed - GET-метод.
+     * Параметры: id - номер элемента
+     * @return array - массив с success=true или ошибки
+     */
+    public function actionMarkAsCompleted(): array
+    {
+        $form = new MarkListElementForm();
+        $form->load($this->request->post(), '');
+        if ($form->validate() && $form->markAsCompleted()) {
             return $form->serializeToArray();
         }
         return ['errors' => $form->getFirstErrors()];

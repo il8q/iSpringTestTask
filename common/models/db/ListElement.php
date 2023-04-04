@@ -61,4 +61,11 @@ class ListElement extends \common\models\db\BaseListElement
         $result['updatedAt'] = (int)$this->updatedAt;
         return $result;
     }
+
+    public function markASCompleted()
+    {
+        if (!$this->isCompleted) {
+            $this->isCompleted = 1;
+        }
+    }
 }
