@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\db\ListElement;
 use frontend\models\CheckListForm;
+use frontend\models\DeleteListElementForm;
 use frontend\models\MarkListElementForm;
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
@@ -19,7 +20,7 @@ class ListElementController extends Controller
         return [
             [
                 'class' => 'yii\filters\ContentNegotiator',
-                'only' => ['add', 'my-list', 'mark-as-completed'],
+                'only' => ['add', 'my-list', 'mark-as-completed', 'delete'],
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
@@ -72,10 +73,9 @@ class ListElementController extends Controller
         return ['errors' => $form->getFirstErrors()];
     }
 
-
     /**
      * Выдает чек лист.
-     * http://frontend.test/list-element/mark-as-completed - GET-метод.
+     * http://frontend.test/list-element/mark-as-completed - POST-метод.
      * Параметры: id - номер элемента
      * @return array - массив с success=true или ошибки
      */
@@ -84,6 +84,22 @@ class ListElementController extends Controller
         $form = new MarkListElementForm();
         $form->load($this->request->post(), '');
         if ($form->validate() && $form->markAsCompleted()) {
+            return $form->serializeToArray();
+        }
+        return ['errors' => $form->getFirstErrors()];
+    }
+
+    /**
+     * Выдает чек лист.
+     * http://frontend.test/list-element/delete - POST-метод.
+     * Параметры: id - номер элемента
+     * @return array - массив с success=true или ошибки
+     */
+    public function actionDelete(): array
+    {
+        $form = new DeleteListElementForm();
+        $form->load($this->request->post(), '');
+        if ($form->validate() && $form->delete()) {
             return $form->serializeToArray();
         }
         return ['errors' => $form->getFirstErrors()];
