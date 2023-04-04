@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "448806e2-e607-409e-8b75-2151b63bf780",
+		"name": "iSprinTestTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21789747"
+	},
+	"item": [
+		{
+			"name": "Добавить в список",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"listElement\": {\r",
+							"    \"listElementId\": \"integer\",\r",
+							"    \"description\": \"string\",\r",
+							"    \"isCompleted\": \"boolean\",\r",
+							"    \"createAt\": \"integer\",\r",
+							"    \"updateAt\": \"integer\",\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Создается элемент с отметкой невыполнено\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    pm.expect(jsonData.isCompleted).to.eql(false);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://frontend.test/list-element/add",
+					"protocol": "http",
+					"host": [
+						"frontend",
+						"test"
+					],
+					"path": [
+						"list-element",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить список",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"listElements\": {\r",
+							"    \"listElementId\": \"integer\",\r",
+							"    \"description\": \"string\",\r",
+							"    \"isCompleted\": \"boolean\",\r",
+							"    \"createAt\": \"integer\",\r",
+							"    \"updateAt\": \"integer\",\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Выдается список элементов чек-листа\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://frontend.test/list-element/my-list?isCompleted=0",
+					"protocol": "http",
+					"host": [
+						"frontend",
+						"test"
+					],
+					"path": [
+						"list-element",
+						"my-list"
+					],
+					"query": [
+						{
+							"key": "isCompleted",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Получить список",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://frontend.test/list-element/add",
+							"protocol": "http",
+							"host": [
+								"frontend",
+								"test"
+							],
+							"path": [
+								"list-element",
+								"add"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Удалить из списка",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"success\": \"boolean\",\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Элемент удаляется, возврщается true\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    pm.expect(jsonData.isCompleted).to.eql(true);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://frontend.test/list-element/remove",
+					"protocol": "http",
+					"host": [
+						"frontend",
+						"test"
+					],
+					"path": [
+						"list-element",
+						"remove"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Пометить как выполенную",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"  \"listElement\": {\r",
+							"    \"listElementId\": \"integer\",\r",
+							"    \"description\": \"string\",\r",
+							"    \"isCompleted\": \"boolean\",\r",
+							"    \"createAt\": \"integer\",\r",
+							"    \"updateAt\": \"integer\",\r",
+							"  }\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Возвращается элемент с отметкой выполнено\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    pm.expect(jsonData.isCompleted).to.eql(true);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://frontend.test/list-element/mark-as-completed",
+					"protocol": "http",
+					"host": [
+						"frontend",
+						"test"
+					],
+					"path": [
+						"list-element",
+						"mark-as-completed"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
